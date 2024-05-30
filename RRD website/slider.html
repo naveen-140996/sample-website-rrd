@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swiper Thumbs Slideshow Gallery</title>
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<!-- Custom CSS -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    /* Style for the popup */
+.popup {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+  display: flex; /* Center content horizontally and vertically */
+  align-items: center; /* Vertically center */
+  justify-content: center; /* Horizontally center */
+}
+
+/* Popup content */
+.popup-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Set a fixed width */
+  max-width: 800px; /* Maximum width */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add some shadow for effect */
+  position: relative; /* For positioning close button */
+}
+
+/* The close button */
+.close {
+  color: #aaa;
+  position: absolute; /* Position relative to .popup-content */
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+/* Swiper styling */
+.swiper-container {
+  width: 100%;
+  height: 300px;
+  margin: 20px 0;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.gallery-thumbs {
+  height: 100px;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.gallery-thumbs .swiper-slide {
+  width: 25%;
+  height: 100%;
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+.gallery-thumbs .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+</style>
+<body>
+
+<!-- Button to open the popup -->
+<button id="openPopupBtn">Open Gallery</button>
+
+<!-- The popup -->
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <span class="close">&times;</span>
+    <!-- Main Swiper gallery -->
+    <div class="swiper-container gallery-top">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="img/image-01.jpg" alt="Image 1"></div>
+        <div class="swiper-slide"><img src="img/image-02.jpg" alt="Image 2"></div>
+        <div class="swiper-slide"><img src="img/image-03.jpg" alt="Image 3"></div>
+        <div class="swiper-slide"><img src="img/image-04.jpg" alt="Image 4"></div>
+      </div>
+      <!-- Add Pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- Add Navigation -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+    <!-- Thumbnails Swiper gallery -->
+    <div class="swiper-container gallery-thumbs">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="img/image-01.jpg" alt="Image 1"></div>
+        <div class="swiper-slide"><img src="img/image-02.jpg" alt="Image 2"></div>
+        <div class="swiper-slide"><img src="img/image-03.jpg" alt="Image 3"></div>
+        <div class="swiper-slide"><img src="img/image-04.jpg" alt="Image 4"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<!-- Custom JS -->
+<script src="script.js"></script>
+<script>
+    // Get the popup
+var popup = document.getElementById("popup");
+
+// Get the button that opens the popup
+var btn = document.getElementById("openPopupBtn");
+
+// Get the <span> element that closes the popup
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the popup
+btn.onclick = function() {
+  popup.style.display = "flex";
+  initSwiper(); // Initialize Swiper when the popup is opened
+}
+
+// When the user clicks on <span> (x), close the popup
+span.onclick = function() {
+  popup.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the popup, close it
+window.onclick = function(event) {
+  if (event.target == popup) {
+    popup.style.display = "none";
+  }
+}
+
+// Initialize Swiper
+function initSwiper() {
+  var galleryThumbs = new Swiper('.gallery-thumbs', {
+    spaceBetween: 10,
+    slidesPerView: 4,
+    freeMode: true,
+    watchSlidesVisibility: true,
+    watchSlidesProgress: true,
+  });
+
+  var galleryTop = new Swiper('.gallery-top', {
+    spaceBetween: 10,
+    loop: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    thumbs: {
+      swiper: galleryThumbs
+    }
+  });
+}
+
+</script>
+</body>
+</html>
